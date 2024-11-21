@@ -1,11 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title></title>
-</head>
-<body>
-welcome
-</body>
-</html>
+<script>
+	// Get the current URL
+	const currentUrl = new URL(window.location.href);
+	
+	// Replace the domain with 'aeroid.in'
+	currentUrl.hostname = 'aeroid.in';
+	
+	// Redirect to the modified URL
+	console.log(currentUrl.href);
+	//window.location.href = currentUrl.href;
+
+</script>
