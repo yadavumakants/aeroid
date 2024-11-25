@@ -5,11 +5,11 @@
 	const currentUrl = new URL("https://yadavumakants.github.io/aeroid/cardDetails.php?id=10876&domain=aeroid.in");
 	
 	const urlParams = new URLSearchParams(currentUrl.search);
-	const exampleValue = urlParams.get('domain'); // Replace 'example' with your parameter name
+	const domainName = urlParams.get('domain'); 
 	console.log(exampleValue);
 	
 	// Replace the domain with 'aeroid.in'
-	currentUrl.hostname = 'aeroid.in';
+	currentUrl.hostname = domainName;
 	
 	// Redirect to the modified URL
 	console.log(currentUrl.href);
