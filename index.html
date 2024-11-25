@@ -1,15 +1,19 @@
 <script>
 	// Get the current URL
 	// const currentUrl = new URL(window.location.href);
-	
 	const currentUrl = new URL("https://yadavumakants.github.io/aeroid/cardDetails.php?id=10876&domain=aeroid.in");
-	
+
 	const urlParams = new URLSearchParams(currentUrl.search);
 	const domainName = urlParams.get('domain'); 
-	console.log(exampleValue);
+	console.log(domainName);
 	
 	// Replace the domain with 'aeroid.in'
 	currentUrl.hostname = domainName;
+
+	// Get the search parameters
+	let params = currentUrl.searchParams;
+	// Remove the "domain" parameter
+	params.delete("domain");
 	
 	// Redirect to the modified URL
 	console.log(currentUrl.href);
