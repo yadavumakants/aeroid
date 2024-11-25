@@ -1,7 +1,7 @@
 <script>
 	// Get the current URL
 	// const currentUrl = new URL(window.location.href);
-	currentUrl = new URL("https://yadavumakants.github.io/aeroid/cardDetails.php?id=10876&domain=aeroid1.in");
+	const currentUrl = new URL("https://yadavumakants.github.io/aeroid/cardDetails.php?id=10876&domain=aeroid1.in");
 
 	const urlParams = new URLSearchParams(currentUrl.search);
 	const domainName = urlParams.get('domain'); 
@@ -9,16 +9,16 @@
 	
 	// Replace the domain with 'aeroid.in'
 	// currentUrl.hostname = domainName;
-	currentUrl=currentUrl.href.replace("yadavumakants.github.io/aeroid", domainName);
+	const updatedUrl=currentUrl.href.replace("yadavumakants.github.io/aeroid", domainName);
 
-	console.log(currentUrl.href);
+	// console.log(updatedUrl.href);
 	// Get the search parameters
-	let params = currentUrl.searchParams;
+	let params = updatedUrl.searchParams;
 	// Remove the "domain" parameter
 	params.delete("domain");
 	
 	// Redirect to the modified URL
-	console.log(currentUrl.href);
+	console.log(updatedUrl.href);
 	//window.location.href = currentUrl.href;
 
 </script>
