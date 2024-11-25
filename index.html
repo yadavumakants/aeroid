@@ -2,7 +2,11 @@
 	// Get the current URL
 	// const currentUrl = new URL(window.location.href);
 	
-	const currentUrl = new URL("https://aeroid1.in/cardDetails.php?id=10876");
+	const currentUrl = new URL("https://yadavumakants.github.io/aeroid/cardDetails.php?id=10876&domain=aeroid.in");
+	
+	const urlParams = new URLSearchParams(currentUrl);
+	const exampleValue = urlParams.get('domain'); // Replace 'example' with your parameter name
+	console.log(exampleValue);
 	
 	// Replace the domain with 'aeroid.in'
 	currentUrl.hostname = 'aeroid.in';
