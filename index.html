@@ -4,7 +4,7 @@
 	
 	const currentUrl = new URL("https://yadavumakants.github.io/aeroid/cardDetails.php?id=10876&domain=aeroid.in");
 	
-	const urlParams = new URLSearchParams(currentUrl);
+	const urlParams = new URLSearchParams(currentUrl.search);
 	const exampleValue = urlParams.get('domain'); // Replace 'example' with your parameter name
 	console.log(exampleValue);
 	
