@@ -31,7 +31,7 @@
     // Remove the 'domain' and 'page' parameters
     updatedUrl.searchParams.delete("domain");
     updatedUrl.searchParams.delete("page");
-
+    updatedUrl = updatedUrl.replace("%2F", "/");
     console.log("Final URL for redirection:", updatedUrl.href);
 
     // Perform the redirection
