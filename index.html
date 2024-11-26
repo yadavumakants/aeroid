@@ -5,18 +5,22 @@
 
 	const urlParams = new URLSearchParams(currentUrl.search);
 	const domainName = urlParams.get('domain');
-	console.log(domainName);
+	
+	const urlParams2 = new URLSearchParams(currentUrl.search);
+	const pageName = urlParams2.get('page');
 	
 	// Replace the domain with 'aeroid.in'
 	const updatedUrl = new URL(currentUrl.href.replace("yadavumakants.github.io/aeroid", domainName));
+	const finalUrl = new URL(currentUrl.href.replace("index.html", pageName));
 	
 	// Remove the "domain" parameter
-	updatedUrl.searchParams.delete("domain");
+	finalUrl.searchParams.delete("domain");
+	finalUrl.searchParams.delete("page");
 	
 	// Log the final modified URL
-	console.log(updatedUrl.href);
+	console.log(finalUrl.href);
 	
 	// Uncomment the next line to perform the redirection
-	window.location.href = updatedUrl.href;
+	window.location.href = finalUrl.href;
 
 </script>
