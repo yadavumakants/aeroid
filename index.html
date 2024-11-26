@@ -11,7 +11,7 @@
 	
 	// Replace the domain with 'aeroid.in'
 	const updatedUrl = new URL(currentUrl.href.replace("yadavumakants.github.io/aeroid", domainName));
-	const finalUrl = new URL(currentUrl.href.replace("index.html", pageName));
+	const finalUrl = new URL(updatedUrl.href.replace("index.html", pageName));
 	
 	// Remove the "domain" parameter
 	finalUrl.searchParams.delete("domain");
