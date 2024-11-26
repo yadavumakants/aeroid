@@ -23,7 +23,7 @@
 
     // Replace 'index.html' with the specified page if the page parameter exists
     if (pageName) {
-      //updatedUrl = new URL(updatedUrl.href.replace("index.html", pageName));
+      updatedUrl = new URL(updatedUrl.href.replace("index.html", pageName));
     }
 
     console.log("Updated URL before redirection:", updatedUrl.href);
