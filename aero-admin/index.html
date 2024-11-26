@@ -1,1 +1,42 @@
+<script>
+  try {
+    // Get the current URL
+    const currentUrl = new URL(window.location.href);
 
+    // Extract the 'domain' and 'page' parameters
+    const urlParams = new URLSearchParams(currentUrl.search);
+    const domainName = urlParams.get('domain');
+    const pageName = urlParams.get('page');
+
+    console.log("Current URL:", currentUrl.href);
+    console.log("Domain Parameter:", domainName);
+    console.log("Page Parameter:", pageName);
+
+    // Validate parameters
+    if (!domainName) {
+      console.error("Domain parameter is missing!");
+      throw new Error("Domain parameter is required.");
+    }
+
+    // Replace the base domain
+    let updatedUrl = new URL(currentUrl.href.replace("yadavumakants.github.io/aeroid", domainName));
+
+    // Replace 'index.html' with the specified page if the page parameter exists
+    if (pageName) {
+      updatedUrl = new URL(updatedUrl.href.replace("index.html", pageName));
+    }
+
+    console.log("Updated URL before redirection:", updatedUrl.href);
+
+    // Remove the 'domain' and 'page' parameters
+    updatedUrl.searchParams.delete("domain");
+    updatedUrl.searchParams.delete("page");
+    updatedUrl = new URL(updatedUrl.href.replace("%2F", ""));
+    console.log("Final URL for redirection:", updatedUrl.href);
+
+    // Perform the redirection
+    window.location.href = updatedUrl.href;
+  } catch (error) {
+    console.error("Error occurred during redirection:", error);
+  }
+</script>
