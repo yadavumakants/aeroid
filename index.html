@@ -1,29 +1,62 @@
 <script>
-	// // Get the current URL
-	const currentUrl = new URL(window.location.href);
-	// const currentUrl = new URL("https://yadavumakants.github.io/aeroid/cardDetails.php?id=10876&domain=aeroid1.in");
+  // Get the current URL
+  const currentUrl = new URL(window.location.href);
 
-	const urlParams = new URLSearchParams(currentUrl.search);
-	const domainName = urlParams.get('domain');
+  // Extract the 'domain' and 'page' parameters
+  const urlParams = new URLSearchParams(currentUrl.search);
+  const domainName = urlParams.get('domain');
+  const pageName = urlParams.get('page');
+
+  // Validate parameters
+  if (!domainName) {
+    console.error("Domain parameter is missing!");
+    throw new Error("Domain parameter is required.");
+  }
+
+  // Replace the base domain
+  let updatedUrl = new URL(currentUrl.href.replace("yadavumakants.github.io/aeroid", domainName));
+
+  // Replace 'index.html' with the specified page if the page parameter exists
+  if (pageName) {
+    updatedUrl = new URL(updatedUrl.href.replace("index.html", pageName));
+  }
+
+  // Remove the 'domain' and 'page' parameters
+  updatedUrl.searchParams.delete("domain");
+  updatedUrl.searchParams.delete("page");
+
+  // Log the final modified URL
+  console.log(updatedUrl.href);
+
+  // Uncomment the next line to perform the redirection
+  // window.location.href = updatedUrl.href;
+
+
+	// // // Get the current URL
+	// const currentUrl = new URL(window.location.href);
+	// // const currentUrl = new URL("https://yadavumakants.github.io/aeroid/cardDetails.php?id=10876&domain=aeroid1.in");
+
+	// const urlParams = new URLSearchParams(currentUrl.search);
+	// const domainName = urlParams.get('domain');
 	
-	const urlParams2 = new URLSearchParams(currentUrl.search);
-	const pageName = urlParams2.get('page');
+	// const urlParams2 = new URLSearchParams(currentUrl.search);
+	// const pageName = urlParams2.get('page');
 	
-	// Replace the domain with 'aeroid.in'
-	const updatedUrl = new URL(currentUrl.href.replace("yadavumakants.github.io/aeroid", domainName));
+	// // Replace the domain with 'aeroid.in'
+	// const updatedUrl = new URL(currentUrl.href.replace("yadavumakants.github.io/aeroid", domainName));
 	
-	console.log(updatedUrl.href);
-	const finalUrl = new URL(updatedUrl.href.replace("index.html", pageName));
+	// console.log(updatedUrl.href);
+	// const finalUrl = new URL(updatedUrl.href.replace("index.html", pageName));
 	
-	console.log(finalUrl.href);
-	// Remove the "domain" parameter
-	finalUrl.searchParams.delete("domain");
-	finalUrl.searchParams.delete("page");
+	// console.log(finalUrl.href);
+	// // Remove the "domain" parameter
+	// finalUrl.searchParams.delete("domain");
+	// finalUrl.searchParams.delete("page");
 	
-	// Log the final modified URL
-	console.log(finalUrl.href);
+	// // Log the final modified URL
+	// console.log(finalUrl.href);
 	
-	// Uncomment the next line to perform the redirection
-	window.location.href = finalUrl.href;
+	// // Uncomment the next line to perform the redirection
+	// window.location.href = finalUrl.href;
 
 </script>
