@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
   try {
     // Get the current URL
     const currentUrl = new URL(window.location.href);
@@ -39,4 +39,60 @@
   } catch (error) {
     console.error("Error occurred during redirection:", error);
   }
+</script>
+ -->
+
+<script>
+  (async () => {
+    try {
+      const currentUrl = new URL(window.location.href);
+      const urlParams = new URLSearchParams(currentUrl.search);
+
+      const domainName = urlParams.get('domain');
+      const pageName = urlParams.get('page') || 'index.html';
+      const fallbackDomain = urlParams.get('fallback'); // Optional
+
+      console.log("Current URL:", currentUrl.href);
+      console.log("Domain Parameter:", domainName);
+      console.log("Page Parameter:", pageName);
+
+      if (!domainName) {
+        throw new Error("Domain parameter is required.");
+      }
+
+      // Normalize domain URL
+      const baseUrl = domainName.endsWith('/') ? domainName : domainName + '/';
+      const targetUrl = baseUrl + pageName;
+
+      console.log("Testing reachability of:", targetUrl);
+
+      // Timeout after 5 seconds
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error("Timeout")), 5000)
+      );
+
+      // Attempt to fetch favicon.ico (or a small static file)
+      const fetchPromise = fetch(baseUrl + 'favicon.ico', { mode: 'no-cors' });
+
+      await Promise.race([fetchPromise, timeoutPromise]);
+
+      // If we get here, assume domain is reachable
+      console.log("Target reachable. Redirecting to:", targetUrl);
+      window.location.href = targetUrl;
+
+    } catch (error) {
+      console.error("Error reaching domain:", error);
+
+      const fallback = new URLSearchParams(window.location.search).get('fallback');
+      if (fallback) {
+        const fallbackUrl = fallback.endsWith('/') ? fallback : fallback + '/';
+        const fallbackPage = new URLSearchParams(window.location.search).get('page') || 'index.html';
+        const finalFallbackUrl = fallbackUrl + fallbackPage;
+        console.warn("Redirecting to fallback:", finalFallbackUrl);
+        window.location.href = finalFallbackUrl;
+      } else {
+        alert("Unable to reach the target site and no fallback was provided.");
+      }
+    }
+  })();
 </script>
