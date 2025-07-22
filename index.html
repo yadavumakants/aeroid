@@ -1,4 +1,4 @@
-<!-- <script>
+<script>
   try {
     // Get the current URL
     const currentUrl = new URL(window.location.href);
@@ -39,56 +39,4 @@
   } catch (error) {
     console.error("Error occurred during redirection:", error);
   }
-</script>
- -->
-<script>
-  (async () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const domain = urlParams.get('domain');
-    const page = urlParams.get('page') || 'index.html';
-    const fallback = urlParams.get('fallback');
-
-    if (!domain) {
-      console.error("Missing 'domain' parameter");
-      return;
-    }
-
-    const targetUrl = domain.replace(/\/$/, '') + '/' + page;
-    const pingUrl = domain.replace(/\/$/, '') + '/favicon.ico'; // or any small public file
-
-    const fallbackUrl = fallback ? fallback.replace(/\/$/, '') + '/' + page : null;
-
-    console.log("Trying to reach:", pingUrl);
-
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 5000); // 5-second timeout
-
-    try {
-      const response = await fetch(pingUrl, {
-        mode: 'cors',
-        method: 'GET',
-        signal: controller.signal,
-      });
-
-      clearTimeout(timeout);
-
-      if (response.ok || response.type === 'opaque') {
-        console.log("Domain is reachable. Redirecting to:", targetUrl);
-        window.location.href = targetUrl;
-      } else {
-        throw new Error("Ping failed with status: " + response.status);
-      }
-
-    } catch (err) {
-      clearTimeout(timeout);
-      console.warn("Primary domain not reachable:", err);
-
-      if (fallbackUrl) {
-        console.warn("Redirecting to fallback:", fallbackUrl);
-        window.location.href = fallbackUrl;
-      } else {
-        alert("Target domain unreachable, and no fallback provided.");
-      }
-    }
-  })();
 </script>
