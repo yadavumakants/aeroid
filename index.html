@@ -1,6 +1,78 @@
 <script>
   async function checkDomainReachable(url) {
     try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 3000); // 3s timeout
+      await fetch(url, { method: "HEAD", mode: "no-cors", signal: controller.signal });
+      clearTimeout(timeout);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  (async () => {
+    try {
+      const currentUrl = new URL(window.location.href);
+      const urlParams = new URLSearchParams(currentUrl.search);
+      const domainName = urlParams.get("domain");
+      const pageName = urlParams.get("page");
+
+      if (!domainName) {
+        console.error("Domain parameter is missing!");
+        throw new Error("Domain parameter is required.");
+      }
+
+      // Step 1: Build updated URL with given domain
+      let updatedUrl = new URL(
+        currentUrl.href.replace("yadavumakants.github.io/aeroid", domainName)
+      );
+
+      if (pageName) {
+        updatedUrl = new URL(updatedUrl.href.replace("index.html", pageName));
+      }
+
+      updatedUrl.searchParams.delete("domain");
+      updatedUrl.searchParams.delete("page");
+      updatedUrl = new URL(updatedUrl.href.replace("%2F", ""));
+
+      console.log("Trying domain:", updatedUrl.href);
+
+      // Step 2: Try given domain
+      let isReachable = await checkDomainReachable(updatedUrl.origin);
+
+      // Step 3: If unreachable, try aeroid.in
+      if (!isReachable) {
+        console.warn("Main domain unreachable. Trying fallback: aeroid.in");
+        updatedUrl = new URL(updatedUrl.href.replace(domainName, "aeroid.in"));
+        isReachable = await checkDomainReachable(updatedUrl.origin);
+
+        // Step 4: If unreachable, try aeroid1.in
+        if (!isReachable) {
+          console.warn("Fallback aeroid.in unreachable. Trying second fallback: aeroid1.in");
+          updatedUrl = new URL(updatedUrl.href.replace("aeroid.in", "aeroid1.in"));
+          isReachable = await checkDomainReachable(updatedUrl.origin);
+
+          if (!isReachable) {
+            console.error("All domains unreachable.");
+            alert("Server is down, Please try after some time");
+            return; // stop redirection
+          }
+        }
+      }
+
+      console.log("Final URL for redirection:", updatedUrl.href);
+      window.location.href = updatedUrl.href;
+    } catch (error) {
+      console.error("Error occurred during redirection:", error);
+      alert("Server is down, Please try after some time");
+    }
+  })();
+</script>
+<!-- 
+<script>
+  async function checkDomainReachable(url) {
+    try {
       // Use HEAD to minimize load, set short timeout
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 3000); // 3s timeout
@@ -58,3 +130,4 @@
     }
   })();
 </script>
+ -->
