@@ -1,4 +1,62 @@
 <script>
+  function checkReachable(domain, path) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      const timeout = setTimeout(() => {
+        img.src = ""; // cancel
+        reject();
+      }, 1000); // 1s timeout
+
+      img.onload = () => { clearTimeout(timeout); resolve(domain + path); };
+      img.onerror = () => { clearTimeout(timeout); reject(); };
+
+      // Request favicon (small & always exists for most domains)
+      img.src = domain + "/favicon.ico?" + Date.now(); // cache-buster
+    });
+  }
+
+  (async () => {
+    try {
+      const currentUrl = new URL(window.location.href);
+      const urlParams = new URLSearchParams(currentUrl.search);
+      const domainName = urlParams.get("domain");
+      const pageName = urlParams.get("page") || "index.html";
+
+      if (!domainName) throw new Error("Domain parameter is required.");
+
+      const path = currentUrl.pathname
+        .replace("/aeroid/", "/")
+        .replace("index.html", pageName);
+
+      const candidates = [
+        "https://" + domainName,
+        "https://aeroid.in",
+        "https://aeroid1.in"
+      ];
+
+      // Run all checks in parallel, pick the first that responds
+      const finalUrl = await Promise.any(
+        candidates.map(d => checkReachable(d, path))
+      );
+
+      console.log("Redirecting to:", finalUrl);
+      window.location.href = finalUrl;
+    } catch (e) {
+      console.error("All domains unreachable.", e);
+      alert("Server is down, Please try after some time");
+    }
+  })();
+</script>
+
+
+
+
+
+
+
+
+
+<!-- <script>
   async function checkDomainReachable(url) {
     try {
       const controller = new AbortController();
@@ -69,6 +127,22 @@
     }
   })();
 </script>
+ -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- 
 <script>
   async function checkDomainReachable(url) {
