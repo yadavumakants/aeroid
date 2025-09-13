@@ -5,7 +5,7 @@
       const timer = setTimeout(() => { img.src = ""; reject(); }, timeout);
       img.onload = () => { clearTimeout(timer); resolve(domain); };
       img.onerror = () => { clearTimeout(timer); reject(); };
-      img.src = domain + "/favicon.ico?" + Date.now();
+      img.src = domain + "/favicon.ico?" + Date.now(); // cache-buster
     });
   }
 
@@ -31,7 +31,7 @@
       const query = searchParams.toString();
       if (query) path += "?" + query;
 
-      // Domains in priority order
+      // Candidate domains in priority order
       const candidates = [
         "https://" + domainName,
         "https://aeroid.in",
@@ -57,6 +57,9 @@
         return;
       }
 
+      // ✅ Maintain original %2F cleanup logic
+      finalUrl = finalUrl.replace(/%2F/gi, "");
+
       console.log("Redirecting to:", finalUrl);
       window.location.href = finalUrl;
     } catch (e) {
@@ -65,11 +68,6 @@
     }
   })();
 </script>
-
-
-
-
-
 
 
 
