@@ -53,7 +53,8 @@
       }
 
       if (!finalUrl) {
-        alert("Server is down, Please try after some time");
+        // alert("Server is down, Please try after some time");
+        location.reload(); // 🔄 reload instead of alert
         return;
       }
 
@@ -64,7 +65,8 @@
       window.location.href = finalUrl;
     } catch (e) {
       console.error("Redirection error:", e);
-      alert("Server is down, Please try after some time");
+      // alert("Server is down, Please try after some time");
+      location.reload(); // 🔄 reload instead of alert
     }
   })();
 </script>
